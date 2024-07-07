@@ -1,0 +1,6 @@
+# requirements.txt
+
+cbor==1.0.0
+coppeliasim_zmqremoteapi_client==2.0.4
+numpy==2.0.0
+pyzmq==26.0.3
