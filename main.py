@@ -2,7 +2,7 @@
 # CoppeliaSim. Do not launch simulation, but run this script
 
 import math
-
+import time
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 
 print('Program started')
@@ -15,26 +15,30 @@ sim = client.require('sim')
 sim.loadScene('/Users/lticharwa/Desktop/test-sim.ttt')
 
 def moveToAngle(jointAngle, targetAngle):
-        sim.setJointTargetPosition(joint2, targetAngle)
-        sim.setJointMaxForce(joint2, maxForce)
-        sim.step()
+        sim.setJointTargetPosition(jointAngle, targetAngle)
+        for _ in range(100):  # Adjust the range as needed
+            sim.step()
+            time.sleep(0.01)  # Adding a small delay to let the simulation process
+        
      
 joint2 = sim.getObject('/Joint2')
-joint1 = sim.getObject('/Joint2')
+joint1 = sim.getObject('/Joint1')
 
-jointAngle = sim.getJointPosition(joint2)
-sim.setJointTargetVelocity(joint2, 360 * math.pi / 180)
+
+
 
 # enable the stepping mode on the client:
 sim.setStepping(True)
-
 sim.startSimulation()
+try:
+    while True :
+        moveToAngle(joint2,math.pi/2)
+        theta1 = sim.getJointPosition(joint1)
+        theta2 = sim.getJointPosition(joint2)
+        print('theta1:', theta1, 'theta2:', theta2)
+except KeyboardInterrupt:
+    sim.stopSimulation()
 
-moveToAngle(joint2,45 * math.pi / 180)
-moveToAngle(joint1,90 * math.pi / 180)
-moveToAngle(joint2,-99 * math.pi / 180)  # no -90, to avoid passing below
-moveToAngle(joint1,0 * math.pi / 180)
 
-sim.stopSimulation()
 
-print('Program ended')
+
