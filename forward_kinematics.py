@@ -34,11 +34,7 @@ def sensing():
     effectorPos = sim.getObjectPosition(endEffector, sim.handle_world)
     sim.addDrawingObjectItem(endEffectorTrace, effectorPos)
     time.sleep(0.01)  # Adding a small delay to let the simulation process
-    
-    
-    
-   
-    
+        
 def stop_sim():
     sim.stopSimulation()
  
